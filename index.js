@@ -28,7 +28,7 @@ async function processEvent(event, { config, global, storage }) {
         if (timestamp) {
             if (global.firstStepEvents.has(event.event)) {
                 if(event.properties.task_id){
-                    const existingTimestamp = await storage.get(`${event.event}_${event.distinct_id}`)
+                    const existingTimestamp = await storage.get(`${event.event}_${event.task_id}`)
                     if (!existingTimestamp || (existingTimestamp && config.updateTimestamp === "Yes")) {
                         await storage.set(`${event.event}_${event.properties.task_id}`, timestamp)
                     }
