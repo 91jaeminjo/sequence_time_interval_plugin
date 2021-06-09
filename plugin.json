@@ -1,0 +1,30 @@
+{
+  "name": "Sequence Time Interval Plugin",
+  "url": "https://github.com/91jaeminjo/sequence_time_interval_plugin",
+  "description": "Customization of Posthog's Event Sequence Timer Plugin",
+  "main": "index.js",
+  "config": [
+        {
+          "key": "eventsToTrack",
+          "hint": "**Format:**`(eventA,eventB),(eventC,eventD)` **Spaces are not allowed**",
+          "name": "List of events to track time differences on",
+          "type": "string",
+          "order": 1,
+          "default": "",
+          "required": true
+        },
+        {
+          "key": "updateTimestamp",
+          "hint": "Selecting 'Yes' will track _last touch_, while selecting 'No' will track first touch.",
+          "name": "Update timestamp on every new first event?",
+          "type": "choice",
+          "order": 2,
+          "choices": [
+            "Yes",
+            "No"
+          ],
+          "default": "Yes",
+          "required": false
+        }
+      ]
+}
