@@ -41,6 +41,5 @@ async function processEvent(event, { config, global, storage }) {
                 }
             }
         }
-    event.properties['working'] = 'working test'
     return event
 }
