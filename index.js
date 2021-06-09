@@ -27,16 +27,23 @@ async function processEvent(event, { config, global, storage }) {
         const timestamp = new Date(event.timestamp || event.data?.timestamp || event.properties?.timestamp || event.now || event.sent_at || event.properties?.['$time']).getTime()
         if (timestamp) {
             if (global.firstStepEvents.has(event.event)) {
-                const existingTimestamp = await storage.get(`${event.event}_${event.distinct_id}`)
-                if (!existingTimestamp || (existingTimestamp && config.updateTimestamp === "Yes")) {
-                    await storage.set(`${event.event}_${event.distinct_id}`, timestamp)
+                if(event.properties.task_id){
+                    const existingTimestamp = await storage.get(`${event.event}_${event.distinct_id}`)
+                    if (!existingTimestamp || (existingTimestamp && config.updateTimestamp === "Yes")) {
+                        await storage.set(`${event.event}_${event.properties.task_id}`, timestamp)
+                    }
+                }
+                if(event.properties.userName){
+                    event.properties['test']=event.userName;
                 }
             }
             if (global.eventsToTrack[event.event]) {
                 for (let eventA of Array.from(global.eventsToTrack[event.event])) {
-                    const storedTimestamp = await storage.get(`${eventA}_${event.distinct_id}`)
-                    if (storedTimestamp) {
-                        event.properties[`time_since_${eventA}`] = timestamp - Number(storedTimestamp)
+                    if(eventA.properties.task_id){
+                        const storedTimestamp = await storage.get(`${eventA}_${event.properties.task_id}`)
+                        if (storedTimestamp) {
+                            event.properties[`time_since_${eventA}`] = timestamp - Number(storedTimestamp)
+                        }
                     }
                 }
             }
