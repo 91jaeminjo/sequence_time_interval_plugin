@@ -51,11 +51,10 @@ async function processEvent(event, { config, global, storage }) {
 }
 
 function msToReadableTime(duration) {
-  var millisecond = Math.floor((duration % 1000) / 10);
   var second = Math.floor(duration / 1000) % 60;
   var minute = Math.floor(duration / (1000 * 60)) % 60;
   var hour = Math.floor(duration/(1000 * 60 * 60)) % 24;
   var day = Math.floor(duration/(1000 * 60 * 60 * 24));
 
-  return day+'day '+hour+'hr '+minute+'min '+second+'.'+ millisecond +'sec';
+  return day+'day '+hour+'hr '+minute+'min '+second+'sec';
 }
