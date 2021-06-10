@@ -1,3 +1,5 @@
+/// This code is based on MIT licensed code from: https://github.com/PostHog/event-sequence-timer-plugin
+
 function setupPlugin({config, global}) {
     if (config.eventsToTrack.includes(' ')) {
         throw new Error('No spaces allowed in events list.')
