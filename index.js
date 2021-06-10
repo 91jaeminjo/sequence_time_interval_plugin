@@ -41,11 +41,23 @@ async function processEvent(event, { config, global, storage }) {
                 if(event.properties.task_id){
                     const storedTimestamp = await storage.get(`${eventA}_${event.properties.task_id}`)
                     if (storedTimestamp) {
-                        event.properties[`time_since_${eventA}`] = timestamp - Number(storedTimestamp)
+                        event.properties[`time_since_${eventA}`] = msToReadableTime(timestamp - Number(storedTimestamp));
                     }
                 }
             }
         }
     }
     return event
+}
+
+function msToReadableTime(duration) {
+  var milliseconds = Math.floor((duration % 1000) / 10);
+  var seconds = Math.floor(duration / 1000) % 60;
+  var minute = Math.floor(duration / (1000 * 60)) % 60;
+  var hour = Math.floor(duration/(1000 * 60 * 60)) % 24;
+  var day = Math.floor(duration/(1000 * 60 * 60 * 24));
+  var sec = seconds < 10 ? '0'+ seconds : seconds;
+  var min = minute < 10 ? '0' + minute : minute;
+  var hr = '' + hour;
+  return day+'day '+hr+'hr '+min+'min '+sec+'.'+ milliseconds +'sec';
 }
