@@ -41,13 +41,17 @@ async function processEvent(event, { config, global, storage }) {
                 if(event.properties.task_id){
                     const storedTimestamp = await storage.get(`${eventA}_${event.properties.task_id}`)
                     if (storedTimestamp) {
-                        event.properties[`time_since_${eventA}`] = msToReadableTime(timestamp - Number(storedTimestamp));
+                        const DAY = 1000 * 60 * 60 * 24;
+                        let interval = timestamp - Number(storedTimestamp);
+                        
+                        event.properties[`time_since_${eventA}`] = interval/DAY;
+                        event.properties[`time_since_${eventA}_readable`] = msToReadableTime(interval);
                     }
                 }
             }
         }
     }
-    return event
+    return event;
 }
 
 function msToReadableTime(duration) {
